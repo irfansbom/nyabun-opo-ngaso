@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>User Entry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h1>User Entry</h1>
+
+    <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="error-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="error-modal-label">Error</h5>
+          </div>
+          <div class="modal-body">
+            <p id="error-msg">
+            </p>
+          </div>
+          <div class="modal-footer">
+            <div class="container-fluid">
+              <button type="button" class="btn btn-secondary mb-2" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="alter-modal" tabindex="-1" role="dialog" aria-labelledby="alter-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="alter-modal-label">User Form</h5>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <form>
+                <div class="form-group">
+                  <label for="username-input">Username</label>
+                  <input type="text" class="form-control" id="username-input" aria-describedby="id-help" placeholder="Enter ID" autocomplete="off">
+
+                </div>
+                <div class="form-group">
+                  <label for="nama-lengkap-input">Full Name</label>
+                  <input type="text" class="form-control" id="nama-lengkap-input" aria-describedby="name-help" placeholder="Enter name" autocomplete="off">
+
+                </div>
+                <div class="form-group">
+                  <label for="email-input">Email</label>
+                  <input type="email" class="form-control" id="email-input" aria-describedby="email-help" placeholder="Enter email" autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <label for="password-1-input">Password</label>
+                  <input type="password" class="form-control" id="password-1-input" aria-describedby="password-1-help" placeholder="Enter password"
+                    autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <label for="password-2-input">Repeat Password</label>
+                  <input type="password" class="form-control" id="password-2-input" aria-describedby="password-2-help" placeholder="Repeat password"
+                    autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="container-fluid">
+              <button type="button" id="cancel-button" class="btn btn-secondary mb-2" data-dismiss="modal">Discard and close</button>
+              <button type="button" id="save-button" class="btn btn-primary mb-2">Save changes</button>
+              <button type="button" id="delete-button" class="btn btn-danger mb-2">Delete record</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="create-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="create-modal-label">Entry User Form</h5>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <form id="create-form">
+                <div class="form-group">
+                  <label for="username-input-c">Username</label>
+                  <input type="text" class="form-control" id="username-input-c" aria-describedby="id-help" placeholder="Enter ID" autocomplete="off">
+
+                </div>
+                <div class="form-group">
+                  <label for="nama-lengkap-input-c">Full Name</label>
+                  <input type="text" class="form-control" id="nama-lengkap-input-c" aria-describedby="name-help" placeholder="Enter name" autocomplete="off">
+
+                </div>
+                <div class="form-group">
+                  <label for="email-input-c">Email</label>
+                  <input type="email" class="form-control" id="email-input-c" aria-describedby="email-help" placeholder="Enter email" autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <label for="password-1-input-c">Password</label>
+                  <input type="password" class="form-control" id="password-1-input-c" aria-describedby="password-1-help" placeholder="Enter password"
+                    autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <label for="password-2-input-c">Repeat Password</label>
+                  <input type="password" class="form-control" id="password-2-input-c" aria-describedby="password-2-help" placeholder="Repeat password"
+                    autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="container-fluid">
+              <button type="button" id="cancel-button-c" class="btn mb-2 btn-secondary" data-dismiss="modal">Discard and close</button>
+              <button type="button" id="save-button-c" class="btn mb-2 btn-primary">Create Entry</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="float-left">
+        <input type="text" class="form-control" id="search-input" aria-describedby="search-help" placeholder="Enter search query"
+          autocomplete="off">
+          
+        <button type="button" id="search-button" class="btn btn-secondary mb-4 mt-3">Search</button>
+        <button type="button" id="refresh-button" class="btn btn-secondary mb-4 mt-3">Refresh</button>
+        <button type="button" id="create-button" class="btn btn-primary mb-4 mt-3">Entry User</button>
+        <span class="ml-5">Klik user untuk edit</span>
+      </div>
+      
+      <br>
+      <table class="table table-hover table-responsive-md">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Nama Lengkap</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <script src="./static/js/main.js"></script>
+</body>
+
+</html>

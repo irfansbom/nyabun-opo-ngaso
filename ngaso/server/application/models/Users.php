@@ -21,14 +21,14 @@ class Users extends CI_Model
 
 	public function get_users_by_search_query(string $query = null, bool $strict = false)
 	{
-		if($query === null) {
+		if ($query === null) {
 			return $this->get_all_users();
 		}
 
 		if ($strict) {
 			$query = $this->db->query('SELECT * FROM users WHERE username = ? ORDER BY username', [$query]);
 		} else {
-			$query = $this->db->query('SELECT * FROM users WHERE username LIKE ? ORDER BY username', ['%'.$query.'%']);
+			$query = $this->db->query('SELECT * FROM users WHERE username LIKE ? ORDER BY username', ['%' . $query . '%']);
 		}
 
 		return [
@@ -39,13 +39,47 @@ class Users extends CI_Model
 
 	public function validate_user_array(array $user_array = null)
 	{
-		$data = [];
 
-		array_push($data, $user_array['username']);
-		array_push($data, $user_array['nama_lengkap']);
-		array_push($data, $user_array['password']);
-		array_push($data, $user_array['email']);
-		
+
+
+		if (strlen($user_array['username']) < 4) {
+			$data['error']['username'] = 'Username harus lebih dari 4 karakter';
+		}
+
+		if (strlen($user_array['username']) > 80) {
+			$data['error']['username'] = 'Username tidak boleh lebih dari 80 karakter';
+		}
+
+		if (strlen($user_array['nama_lengkap']) === 0) {
+			$data['error']['nama_lengkap'] = 'Nama lengkap kosong';
+		}
+
+		if (strlen($user_array['nama_lengkap']) > 120) {
+			$data['error']['nama_lengkap'] = 'Nama lengkap tidak boleh lebih dari 120 karakter';
+		}
+
+		if ((preg_match('/[0-9]+/', $user_array['password']) !== 1) || (preg_match('/[A-Za-z]+/', $user_array['password']) !== 1)) {
+			$data['error']['password'] = 'Password harus minimal terdiri dari satu huruf dan satu angka';
+		}
+
+		if ($user_array['password'] === "q3w5e5tyu9iz3wxcrvbuimo,z3w4xevtbnmio,") {
+			$data['error']['password'] = 'Kedua password harus sama';
+		}
+
+
+		if (!filter_var($user_array['email'], FILTER_VALIDATE_EMAIL)) {
+			$data['error']['email'] = 'Email tidak valid';
+		}
+
+
+		if (!isset($data['error'])) {
+			$data = [];
+			array_push($data, $user_array['username']);
+			array_push($data, $user_array['nama_lengkap']);
+			array_push($data, $user_array['password']);
+			array_push($data, $user_array['email']);
+		}
+
 		return $data;
 	}
 
@@ -59,11 +93,11 @@ class Users extends CI_Model
 		}
 
 		$user_array = $this->validate_user_array($user_array);
-		
+
 		if ($user_array['error'] !== null) {
 			return [
 				'status' => '400',
-				'error_validation' => $user_array['error']
+				'error' => $user_array['error']
 			];
 		}
 
@@ -80,7 +114,7 @@ class Users extends CI_Model
 
 		$response = $this->get_users_by_search_query($user_array[0], true);
 		$response['status'] = 201;
-		
+
 		return $response;
 	}
 
@@ -94,26 +128,27 @@ class Users extends CI_Model
 		}
 
 		$user_array = $this->validate_user_array($user_array);
-		
+
 		if ($user_array['error'] !== null) {
 			return [
 				'status' => '400',
-				'error_validation' => $user_array['error']
+				'error' => $user_array['error']
 			];
 		}
 
-		for ($i=1; $i < 4; $i++) { 
-			$user_array[$i+3] = $user_array[$i];
+		for ($i = 1; $i < 4; $i++) {
+			$user_array[$i + 3] = $user_array[$i];
 		}
 
 		$this->db->query(
-			'INSERT INTO users VALUES (? , ? , ? , ?) ON DUPLICATE KEY UPDATE nama_lengkap = ?, password = ?, email = ?', 
-		$user_array);
+			'INSERT INTO users VALUES (? , ? , ? , ?) ON DUPLICATE KEY UPDATE nama_lengkap = ?, password = ?, email = ?',
+			$user_array
+		);
 
 
 		$response = $this->get_users_by_search_query($user_array[0], true);
 		$response['status'] = 200;
-		
+
 		return $response;
 	}
 
@@ -128,7 +163,7 @@ class Users extends CI_Model
 
 		$this->db->query('DELETE FROM users WHERE username = ?', [$username]);
 		$aff = $this->db->affected_rows();
-		
+
 		return [
 			'status' => 200,
 			'affected_rows' => $aff
